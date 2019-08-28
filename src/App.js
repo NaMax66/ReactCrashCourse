@@ -2,14 +2,21 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import axios from 'axios';
 import Todos from './components/Todos';
-import './App.css';
+import './App.css'; //global css
 import Header from './components/layout/Header';
 import AddTodo from './components/layout/AddTodo';
 import About from './components/pages/About';
 //import uuid from 'uuid';
 
 
+
 class App extends Component {
+
+  //Добавил конструктор для исследования. Если создать копию объекта App, то props этого объекта будет componentName.
+  constructor(componentName){
+    super(componentName);
+    this.componentName = componentName;
+  }
   state = {
     todos: [
       // {
@@ -21,20 +28,16 @@ class App extends Component {
       //   id: uuid.v4(),
       //   title: 'Dinner with wife',
       //   completed: false
-      // },
-      // {
-      //   id: uuid.v4(),
-      //   title: 'Meeting with boss',
-      //   completed: false
-      // }
     ]
   };
-  //Using lifeCycleMethod
+
+  humbambate = 'humbambate';
+
+  //It is the lifeCycleMethod
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10') //it gives us a promise we can add a limit
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
       .then(res => this.setState({todos: res.data}))
   }
-
 
 //Toggle complete
   markComplete = (id) => {//instead of this.markComplete.bind(this)
@@ -47,11 +50,6 @@ class App extends Component {
       })
     })
   };
-
-  // markComplete(id) {
-  //   console.log(id);
-  // }
-//Delete Todo
 
   delTodo = (id) => {
     axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`) //этот запрос возвращает promise
@@ -74,21 +72,20 @@ class App extends Component {
     }).then(res => this.setState({todos: [...this.state.todos, res.data]}));
 
   };
-
-
   render() {
-    //вся эта лесенка с Route используется для того чтобы открыть app по запросу /
     return (
+        /*This is JSX*/
       <Router>
+        {/*className  используется вместо class in JSX*/}
         <div className="App">
           <div className="container">
             <Header />
-            <Route exact path='/' render={props => ( //exact - чтобы не показывать первую страницу
+            {/*exact - чтобы не показывать первую страницу*/}
+            <Route exact path='/' render={props => (
               <React.Fragment>
                 <AddTodo addTodo={this.addTodo}/>
                 {/*insert our component and passing state as a prop*/}
-                <Todos todos={this.state.todos} markComplete={this.markComplete}
-                       delTodo={this.delTodo}/>
+                <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>
               </React.Fragment>
                 )}/>
             <Route path="/about" component={About}/>
@@ -96,10 +93,7 @@ class App extends Component {
         </div>
       </Router>
     );
-
   }
-
-
 }
 
 export default App;
