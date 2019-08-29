@@ -8,8 +8,6 @@ import AddTodo from './components/layout/AddTodo';
 import About from './components/pages/About';
 //import uuid from 'uuid';
 
-
-
 class App extends Component {
 
   //Добавил конструктор для исследования. Если создать копию объекта App, то props этого объекта будет componentName.
@@ -34,7 +32,7 @@ class App extends Component {
   
   //It is the lifeCycleMethod
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
       .then(res => this.setState({todos: res.data}))
   }
 
@@ -43,6 +41,7 @@ class App extends Component {
     this.setState({
       todos: this.state.todos.map(todo => {
         if (todo.id === id) {
+          //здеь надо проверить
           todo.completed = !todo.completed; //toggle
         }
         return todo;
@@ -72,7 +71,6 @@ class App extends Component {
 
   };
   render() {
-    console.log(this.state);
     return (
         /*This is JSX*/
       <Router>
