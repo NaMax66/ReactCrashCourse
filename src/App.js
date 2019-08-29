@@ -17,6 +17,7 @@ class App extends Component {
     super(componentName);
     this.componentName = componentName;
   }
+
   state = {
     todos: [
       // {
@@ -30,9 +31,7 @@ class App extends Component {
       //   completed: false
     ]
   };
-
-  humbambate = 'humbambate';
-
+  
   //It is the lifeCycleMethod
   componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
@@ -73,6 +72,7 @@ class App extends Component {
 
   };
   render() {
+    console.log(this.state);
     return (
         /*This is JSX*/
       <Router>
